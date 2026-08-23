@@ -80,3 +80,84 @@ The user should be able to:
 __Prediction:__ Spam (94.20% Spam Probability) \
 __Threat Level:__ High Threat (Malicious/Phishing) \
 __Recommendation:__ Move to Quarantine immediately; urgent psychological pressure detected — do not click links or share credentials.
+
+#### 6. Project Modular Application Development
+Modular functions structured across the system:
++ clean_sentence()
++ calculate_threat_level()
++ ai_email_feedback()
++ predict_sentence_spam()
++ clear_fields()
++ append_to_master_csv()
+
+#### 7. From Requirements to System Design
+##### __7.1 Input__
++ Email Sentence / Body Text
+
+##### __7.2 Processing__
++ Text tokenization & stop-word removal
++ TF-IDF feature transformation
++ Machine Learning inference
++ Threat rule-matching
+
+##### __7.3 Output__
++ Prediction (Spam / Ham)
++ Confidence score
++ Threat level
++ Action recommendation
+
+#### 8. Proposed System Architecture
+```mermaid
+flowchart LR
+    A(( Tkinter UI Email Body Entry )) --> B(( Input Validation - Check Non-Empty Text ));
+    B --> C(( NLP Pipeline - TF-IDF Vectorization ));
+    C --> D(( ML Classifier - Model Inference ));
+    D --> E(( Prediction Display + AI Feedback + Master Log ));
+```
+
+#### 9. UI Design RequirementsThe application contains:
+###### 9.1. Input Section
++ Multi-line Scrolled Text Area for Email Body
+###### 9.2. Action Section
++ Predict Entry
++ Clear
++ Exit
+###### 9.3. Result Section
++ Prediction Verdict & Confidence
++ Threat Severity Level
++ Actionable Advice
+#### 10. Using Frames
+```Main Window
+├── Header Title
+├── Email Body Input Frame (ScrolledText)
+├── Action Buttons Frame
+└── Result & Recommendation Frame
+```
+#### 11. ML Workflow
++ Dataset Creation
+  + Balanced email sentence dataset
++ Data Loading & Vectorization
+  + Load dataset with Pandas
+  + Transform sentences into TF-IDF vector matrix
++ Model Training
+  + Train Multinomial Naive Bayes / Logistic Regression / SVM (80/20 train-test split)
++ Model Evaluation
+  + Calculate Accuracy, Precision, Recall, and F1-Score
++ Prediction & Persistence
+  + Test with individual email sentences
+  + Save .pkl model and vectorizer artifacts
+#### 12. Problem Type
+  + Binary Text Classification Problem
+  + Categories: Spam, Ham
+  + Probability Estimation
+  + Spam score: 0.0% – 100.0%
+#### 13. Model Selection
++ Algorithms Evaluated:
+  + Multinomial Naive Bayes
+  + Logistic RegressionSupport Vector Classifier (LinearSVC)
+  + Random Forest Classifier
+  + Decision Tree Classifier
++ Evaluation Metrics:
+  + Accuracy Score
+  + Precision / Recall / F1-Score
+  + Confusion Matrix
