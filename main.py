@@ -62,13 +62,19 @@ def predict_sentence_spam():
         text_vector = vectorizer.transform([cleaned_text])
 
         # 2. ML Prediction & Probability
-        prediction = model.predict(text_vector)[0]
-        
-        # Check if probability output is supported
+        pred_raw = model.predict(text_vector)[0]
+        prediction = "Spam" if pred_raw in [1, "1", "Spam", "spam"] else "Legitimate"
+
         if hasattr(model, "predict_proba"):
             probabilities = model.predict_proba(text_vector)[0]
             classes = list(model.classes_)
-            spam_prob = probabilities[classes.index("Spam")] if "Spam" in classes else 0.0
+            # Find index of spam class (either 1 or 'Spam')
+            if 1 in classes:
+                spam_prob = probabilities[classes.index(1)]
+            elif "Spam" in classes:
+                spam_prob = probabilities[classes.index("Spam")]
+            else:
+                spam_prob = probabilities[1] if len(probabilities) > 1 else 0.0
         else:
             spam_prob = 1.0 if prediction == "Spam" else 0.0
 
