@@ -1,163 +1,143 @@
-# Intelligent_Email_Spam_Detection_and_Filtering_System
+# 📅 Day 1 – Problem Definition & System Designing
 
-#### 1. Problem Statement:
-- Digital communication is heavily impacted by unsolicited, deceptive, and malicious emails.
-- Users struggle to identify phishing and fraudulent scam messages before interacting with them.
-- Traditional static keyword filters fail against evolving obfuscation and text manipulations.
-- A real-time system is needed to analyze incoming email body text and provide immediate filtering decisions.
+> Part of the [Intelligent Email Spam Detection and Filtering System](../README.md) — 3-Day Mini Project Development Documentation.
 
-#### 2. Proposed Solution:
-- Accept raw email body/sentence text directly from the user.
-- Preprocess and tokenize text using NLP techniques (lowercasing, punctuation stripping, stop-word removal).
-- Extract numerical features using TF-IDF vectorization (unigrams and bigrams).
-- Classify the email as Spam or Ham using a Machine Learning classifier (Multinomial Naive Bayes / SVM / Logistic Regression).
-- Calculate threat levels and generate actionable security recommendations.
-- Display instant results and persist records to a master log via a clean Tkinter GUI.
+---
 
-#### 3. Process Flow:
-<p align="center"> Start <br> &darr; <br> Enter Email Sentence / Body Text <br> &darr; <br> Validate Input <br> &darr; <br> Preprocess & TF-IDF Vectorization <br> &darr; <br> ML Model Prediction <br> &darr; <br> Determine Threat Level & Confidence <br> &darr; <br> Generate AI Recommendation <br> &darr; <br> Display Result in GUI & Save to CSV <br> &darr; <br> End</p>
+## 1. Problem Definition
 
-#### 4. Project Mapping:
-| V-Model Stage           | Intelligent Email Spam Project               |
-|:------------------------|:---------------------------------------------|
-| Requirement Analysis    | Identify spam detection from raw body text   |
-| System Design           | Design NLP pipeline and single-window GUI    |
-| Implementation          | Develop TF-IDF vectorizer + ML models        |
-| Integration             | Integrate Tkinter GUI, ML, and AI heuristics | 
-| Testing                 | Test text inputs, edge cases, and accuracy   |
-| Validation              | Validate precision against false positives   |
-| Demonstration           | Present working desktop application          |
+### Problem
 
-### 5. Requirement Analysis
-#### 5.1 Functional Requirements
-The system should:
-+ Accept single email body/sentence inputs via a multi-line text area.
-+ Validate that the text input is not empty.
-+ Preprocess input text and transform it into TF-IDF vectors.
-+ Apply the trained ML classification model.
-+ Predict whether the content is Spam or Ham.
-+ Calculate spam probability confidence scores.
-+ Generate actionable security advice based on threat levels.
-+ Log individual results into `master_email_log.csv`.
-+ Provide clear and exit options.
+Email users receive a large number of unsolicited promotional, spam, phishing, and potentially malicious messages.
 
-#### 5.2 Non Functional Requirements:
-The application should be:
-+ User-friendly and distraction-free
-+ Fast in generating real-time predictions
-+ Reliable and consistent
-+ Modular and maintainable
-+ Lightweight with low memory footprint
+These emails may contain:
 
-#### 5.3 Identify the Users
-Primary Users may include:
-  + Email Users / Consumers
-  + Helpdesk Support Engineers
-  + IT Administrators
+* Phishing attempts
+* Credential harvesting
+* Financial scams
+* Fake offers
+* Promotional spam
+* Suspicious links
+* Urgency-based social engineering
 
-#### 5.4 User Requirements
-The user should be able to:
-+ Paste any suspicious or regular email sentence/body text.
-+ Click a single button to analyze the message.
-+ View the classification verdict (Spam vs. Ham).
-+ See the estimated threat severity.
-+ Read concrete advice on whether to quarantine, delete, or trust the email.
+Traditional static keyword and rule-based filters may not handle changing or obfuscated text effectively.
 
-#### 5.5 Identify System Inputs
-+ Email Sentence / Body Text (Raw unstructured text)
+### Objective
 
-#### 5.6 Identify System Outputs
-###### 5.6.1 Classification Verdict
-  + Spam
-  + Ham (Legitimate)
+The objective of the project is to develop an intelligent desktop application that:
 
-###### 5.6.2 Additional Outputs
-  + Spam Probability Confidence (%)
-  + Threat Level (High Threat, Moderate Threat, Suspicious, Safe)
-  + Actionable AI Recommendation
+1. Accepts raw email body text.
+2. Cleans and preprocesses the text.
+3. Converts text into numerical features.
+4. Uses a trained ML model to classify the email.
+5. Calculates spam probability.
+6. Determines the threat level.
+7. Generates security recommendations.
+8. Displays the result through a graphical interface.
+9. Stores analysis results for future reference.
 
-###### Example
-__Prediction:__ Spam (94.20% Spam Probability) \
-__Threat Level:__ High Threat (Malicious/Phishing) \
-__Recommendation:__ Move to Quarantine immediately; urgent psychological pressure detected — do not click links or share credentials.
+---
 
-#### 6. Project Modular Application Development
-Modular functions structured across the system:
-+ clean_sentence()
-+ calculate_threat_level()
-+ ai_email_feedback()
-+ predict_sentence_spam()
-+ clear_fields()
-+ append_to_master_csv()
+## 2. Proposed Solution
 
-#### 7. From Requirements to System Design
-##### __7.1 Input__
-+ Email Sentence / Body Text
+The proposed system consists of five major stages:
 
-##### __7.2 Processing__
-+ Text tokenization & stop-word removal
-+ TF-IDF feature transformation
-+ Machine Learning inference
-+ Threat rule-matching
+### Input Layer
 
-##### __7.3 Output__
-+ Prediction (Spam / Ham)
-+ Confidence score
-+ Threat level
-+ Action recommendation
+The user enters or pastes the email body into the Tkinter interface.
 
-#### 8. Proposed System Architecture
-```mermaid
-flowchart LR
-    A(( Tkinter UI Email Body Entry )) --> B(( Input Validation - Check Non-Empty Text ));
-    B --> C(( NLP Pipeline - TF-IDF Vectorization ));
-    C --> D(( ML Classifier - Model Inference ));
-    D --> E(( Prediction Display + AI Feedback + Master Log ));
+### NLP Layer
+
+The email text is cleaned and normalized before machine learning processing.
+
+### Machine Learning Layer
+
+The processed text is converted into TF-IDF features and classified using the trained Logistic Regression model.
+
+### AI Threat Engine
+
+The spam probability and suspicious text patterns are analyzed to determine the threat level and generate security advice.
+
+### Persistence Layer
+
+The prediction, probability, threat level, and recommendation are stored in `master_email_log.csv`.
+
+This architecture is also reflected in the project's presentation, where the solution is divided into Input, NLP, Machine Learning, Threat Engine, and Persistence components.
+
+---
+
+## 3. System Architecture
+
+```text
+┌──────────────────────┐
+│      User Input      │
+│     Email Body       │
+└──────────┬───────────┘
+           ↓
+┌──────────────────────┐
+│   NLP Preprocessing  │
+│  clean_sentence()    │
+└──────────┬───────────┘
+           ↓
+┌──────────────────────┐
+│    TF-IDF Vectorizer │
+│    Unigrams+Bigrams  │
+└──────────┬───────────┘
+           ↓
+┌──────────────────────┐
+│   ML Classification  │
+│  Logistic Regression │
+└──────────┬───────────┘
+           ↓
+┌──────────────────────┐
+│   Spam Probability   │
+└──────────┬───────────┘
+           ↓
+┌──────────────────────┐
+│    AI Threat Engine  │
+│ Threat + Heuristics  │
+└──────────┬───────────┘
+           ↓
+┌──────────────────────┐
+│ Security Recommendation│
+└──────────┬───────────┘
+           ↓
+┌──────────────────────┐
+│     Tkinter GUI      │
+└──────────┬───────────┘
+           ↓
+┌──────────────────────┐
+│ master_email_log.csv │
+└──────────────────────┘
 ```
 
-#### 9. UI Design RequirementsThe application contains:
-###### 9.1. Input Section
-+ Multi-line Scrolled Text Area for Email Body
-###### 9.2. Action Section
-+ Predict Entry
-+ Clear
-+ Exit
-###### 9.3. Result Section
-+ Prediction Verdict & Confidence
-+ Threat Severity Level
-+ Actionable Advice
-#### 10. Using Frames
-```Main Window
-├── Header Title
-├── Email Body Input Frame (ScrolledText)
-├── Action Buttons Frame
-└── Result & Recommendation Frame
+The implemented GUI contains a multi-line email input area and **Predict Entry, Clear, and Exit** actions.
+
+---
+
+## 4. Day 1 Deliverables
+
+* Problem statement
+* Project objective
+* Functional requirements
+* Non-functional requirements
+* System architecture
+* Data-flow/process flow
+* GUI design
+* Module identification
+
+### Main modules identified
+
+```text
+main.py
+preprocess_utils.py
+train_model.py
+spam_rules.py
+spam_filter_model_2.pkl
+tfidf_vectorizer_2.pkl
+master_email_log.csv
 ```
-#### 11. ML Workflow
-+ Dataset Creation
-  + Balanced email sentence dataset
-+ Data Loading & Vectorization
-  + Load dataset with Pandas
-  + Transform sentences into TF-IDF vector matrix
-+ Model Training
-  + Train Multinomial Naive Bayes / Logistic Regression / SVM (80/20 train-test split)
-+ Model Evaluation
-  + Calculate Accuracy, Precision, Recall, and F1-Score
-+ Prediction & Persistence
-  + Test with individual email sentences
-  + Save .pkl model and vectorizer artifacts
-#### 12. Problem Type
-  + Binary Text Classification Problem
-  + Categories: Spam, Ham
-  + Probability Estimation
-  + Spam score: 0.0% – 100.0%
-#### 13. Model Selection
-+ Algorithms Evaluated:
-  + Multinomial Naive Bayes
-  + Logistic RegressionSupport Vector Classifier (LinearSVC)
-  + Random Forest Classifier
-  + Decision Tree Classifier
-+ Evaluation Metrics:
-  + Accuracy Score
-  + Precision / Recall / F1-Score
-  + Confusion Matrix
+
+---
+
+**Next:** [Day 2 – Machine Learning Model →](DAY2_MACHINE_LEARNING_MODEL.md)
