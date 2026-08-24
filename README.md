@@ -326,5 +326,207 @@ tfidf_vectorizer_2.pkl
 ```
 
 ---
+# 📅 Day 3 – AI Integration
+
+> Part of the [Intelligent Email Spam Detection and Filtering System](../README.md) — 3-Day Mini Project Development Documentation.
+>
+> **Previous:** [Day 2 – Machine Learning Model](DAY2_MACHINE_LEARNING_MODEL.md)
+
+---
+
+## 1. Machine Learning + AI Integration
+
+On Day 3, the trained ML model is integrated into the desktop application.
+
+The application loads:
+
+```python
+model = joblib.load("spam_filter_model_2.pkl")
+vectorizer = joblib.load("tfidf_vectorizer_2.pkl")
+```
+
+The application then accepts new email text and performs real-time inference.
+
+The actual application code loads both serialized artifacts before performing prediction.
+
+---
+
+## 2. Real-Time Prediction
+
+When the user clicks **Predict Entry**, the system performs the following operations:
+
+```text
+Raw Email
+    ↓
+clean_sentence()
+    ↓
+TF-IDF transform
+    ↓
+model.predict()
+    ↓
+Spam / Legitimate
+    ↓
+model.predict_proba()
+    ↓
+Spam Probability
+```
+
+The application also calculates the spam probability using the model's probability output.
+
+---
+
+## 3. AI Threat Engine
+
+The ML prediction is enhanced with a security-oriented threat analysis layer.
+
+The system categorizes emails into four levels:
+
+| Spam Probability | Threat Level            | Recommended Action |
+| ---------------- | ------------------------ | ------------------- |
+| ≥ 85%             | High Threat              | Move to Quarantine  |
+| ≥ 60% and < 85%   | Moderate Threat           | Mark as Spam/Junk   |
+| < 60% Spam        | Suspicious / Low Threat   | Verify Sender       |
+| Legitimate        | Safe                      | Route to Inbox      |
+
+These thresholds are implemented in the project's threat-analysis module.
+
+---
+
+## 4. Security Heuristics
+
+In addition to the ML probability, the AI threat engine examines suspicious patterns.
+
+### Urgency Indicators
+
+The system checks terms such as:
+
+```text
+urgent
+immediately
+account locked
+compromised
+verify your identity
+suspended
+```
+
+### Financial Indicators
+
+It also checks for terms such as:
+
+```text
+won
+lottery
+prize
+cash
+loan
+bitcoin
+investment
+guaranteed
+```
+
+### URL Detection
+
+External links such as:
+
+```text
+http://...
+https://...
+www....
+```
+
+are detected and the user is advised to scan the URL before clicking.
+
+These security heuristics are documented in the project implementation.
+
+---
+
+## 5. AI Recommendation Generation
+
+The threat engine generates actionable recommendations.
+
+Examples:
+
+### High Threat
+
+```text
+Move to Quarantine immediately;
+potential credential harvesting or scam.
+```
+
+### Moderate Threat
+
+```text
+Mark as Spam and move to Junk folder.
+```
+
+### Suspicious
+
+```text
+Flag with warning banner;
+verify sender authenticity before opening.
+```
+
+### Safe
+
+```text
+Legitimate email; route to Inbox.
+```
+
+The system can also add additional warnings when urgency, financial lure, or external URL patterns are detected.
+
+---
+
+## 6. GUI Integration
+
+The Tkinter GUI displays:
+
+```text
+Verdict:
+Spam Probability:
+Threat Level:
+Actionable Advice:
+```
+
+The actual implementation creates an **Analysis & AI Recommendation Result** section containing the verdict, threat level, and recommendation.
+
+### Example
+
+```text
+Verdict: Spam
+Spam Probability: 94.32%
+
+Threat Level:
+High Threat (Malicious/Phishing)
+
+Actionable Advice:
+Move to Quarantine immediately;
+potential credential harvesting or scam.
+```
+
+---
+
+## 7. Result Logging
+
+Every analysis is stored in:
+
+```text
+master_email_log.csv
+```
+
+The stored information includes:
+
+```text
+Email_Text
+Prediction
+Spam_Probability
+Threat_Level
+Recommendation
+```
+
+This provides a historical record of analyzed emails. The project presentation also specifies that the email text, prediction, probability, threat level, and recommendation are appended to the CSV log.
+
+---
+
+**Back to:** [Main README](../README.md)
 
 
