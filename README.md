@@ -139,5 +139,192 @@ master_email_log.csv
 ```
 
 ---
+# 📅 Day 2 – Machine Learning Model
 
-**Next:** [Day 2 – Machine Learning Model →](DAY2_MACHINE_LEARNING_MODEL.md)
+> Part of the [Intelligent Email Spam Detection and Filtering System](../README.md) — 3-Day Mini Project Development Documentation.
+>
+> **Previous:** [Day 1 – Problem Definition & System Design](DAY1_PROBLEM_DEFINITION_AND_SYSTEM_DESIGN.md)
+
+---
+
+## 1. Dataset Preparation
+
+The project uses `emails.csv` containing labeled email text for training.
+
+The dataset is processed using:
+
+```python
+data = pd.read_csv("emails.csv")
+data["Clean_Sentence"] = data["text"].apply(clean_sentence)
+```
+
+The training data is divided into training and testing sets using:
+
+```python
+train_test_split(
+    test_size=0.35,
+    random_state=42,
+    stratify=data["spam"]
+)
+```
+
+The project therefore uses **65% training data and 35% testing data**.
+
+---
+
+## 2. NLP Preprocessing
+
+The `clean_sentence()` function prepares raw email text before feature extraction.
+
+The preprocessing includes:
+
+* Lowercase conversion
+* URL normalization
+* Currency normalization
+* Number normalization
+* Removal of non-alphabetic characters
+* Whitespace normalization
+
+For example:
+
+```text
+https://example.com
+        ↓
+urltoken
+```
+
+```text
+$500
+        ↓
+moneytoken
+```
+
+```text
+12345
+        ↓
+numtoken
+```
+
+These preprocessing operations are implemented in `preprocess_utils.py`.
+
+---
+
+## 3. TF-IDF Feature Extraction
+
+Machine learning algorithms cannot directly process raw sentences, so the cleaned email text is converted into numerical features.
+
+The project uses:
+
+```python
+TfidfVectorizer(
+    stop_words='english',
+    ngram_range=(1, 2),
+    max_features=5000
+)
+```
+
+### Configuration
+
+| Parameter          | Value              |
+| ------------------ | ------------------ |
+| Feature extraction | TF-IDF             |
+| Stop words         | English            |
+| N-grams            | Unigrams + Bigrams |
+| Maximum features   | 5000               |
+
+Unigrams capture individual terms, while bigrams capture contextual phrases such as **"claim prize"** and **"account locked"**.
+
+---
+
+## 4. Machine Learning Algorithm
+
+### Logistic Regression
+
+The project uses **Logistic Regression** as the final classification model.
+
+```python
+model = LogisticRegression(
+    C=2.0,
+    max_iter=1000,
+    random_state=42
+)
+
+model.fit(X_train_vec, y_train)
+```
+
+The model performs binary classification:
+
+```text
+Email
+  ↓
+TF-IDF Features
+  ↓
+Logistic Regression
+  ↓
+Spam / Legitimate
+```
+
+The training configuration and model artifact generation are documented in the project materials.
+
+---
+
+## 5. Model Evaluation
+
+The trained model is evaluated using:
+
+```python
+accuracy_score()
+classification_report()
+```
+
+The evaluation provides:
+
+* Accuracy
+* Precision
+* Recall
+* F1-score
+* Classification report
+
+The trained model and TF-IDF vectorizer are then serialized using Joblib:
+
+```text
+spam_filter_model_2.pkl
+tfidf_vectorizer_2.pkl
+```
+
+These files allow the application to perform prediction without retraining the model every time.
+
+---
+
+## 6. Day 2 Deliverables
+
+* Dataset preparation
+* Text preprocessing
+* TF-IDF feature extraction
+* Train/test split
+* Logistic Regression training
+* Model evaluation
+* Model serialization
+* Vectorizer serialization
+
+### Day 2 Output
+
+```text
+emails.csv
+     ↓
+Preprocessing
+     ↓
+TF-IDF
+     ↓
+Logistic Regression
+     ↓
+spam_filter_model_2.pkl
+
+TF-IDF Vectorizer
+     ↓
+tfidf_vectorizer_2.pkl
+```
+
+---
+
+
